@@ -9,47 +9,36 @@ public class MainOCP {
         boolean quitter = false;
 
         while (!quitter) {
-            System.out.println("\n--- MENU ---");
-            System.out.println("1. Client standard");
-            System.out.println("2. Client étudiant");
-            System.out.println("3. Client VIP");
-            System.out.println("0. Quitter");
-            System.out.print("Choix : ");
+            DisplayService.displayMenu();
 
-            int choix = lireEntier(scanner);
-
-            if (choix == 0) {
-                quitter = true;
-                continue;
+            int choix = VerificationService.lireEntier(scanner, "Choix : ");
+            StrategieRemise typeClient = null;
+            switch (choix) {
+                case 0 :
+                    quitter = true;
+                    break;
+                case 1 :
+                    typeClient = new RemiseStandard();
+                    break;
+                case 2 :
+                    typeClient = new RemiseEtudiant();
+                    break;
+                case 3 :
+                    typeClient = new RemiseVIP();
+                    break;
+                default:
+                    System.out.println("Type client inconnu");
+                    typeClient = new RemiseStandard();
+                    break;
             }
 
-            System.out.print("Montant HT : ");
-            double montant = lireDouble(scanner);
+            double montant = VerificationService.lireDouble(scanner, "Montant HT : ");
 
-            double total = calculateur.calculerTotal(choix, montant);
+            assert typeClient != null;
+            double total = calculateur.calculerTotal(typeClient, montant);
             System.out.println("Montant après remise : " + total);
         }
 
         scanner.close();
-    }
-
-    private static int lireEntier(Scanner scanner) {
-        while (true) {
-            try {
-                return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.print("Entrée invalide. Recommencez : ");
-            }
-        }
-    }
-
-    private static double lireDouble(Scanner scanner) {
-        while (true) {
-            try {
-                return Double.parseDouble(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.print("Entrée invalide. Recommencez : ");
-            }
-        }
     }
 }
