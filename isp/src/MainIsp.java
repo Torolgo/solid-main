@@ -7,22 +7,14 @@ public class MainIsp {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("\n--- MENU ---");
-            System.out.println("1. Imprimer");
-            System.out.println("2. Scanner");
-            System.out.println("3. Faxer");
-            System.out.println("0. Quitter");
-            System.out.print("Choix fonctionnalité : ");
+            DisplayService.displayMenu();
 
-            int fonction = lireEntier(scanner);
+            int fonction = VerificationService.lireEntier(scanner);
             if (fonction == 0) break;
 
-            System.out.println("\nChoisir la machine :");
-            System.out.println("1. Imprimante simple");
-            System.out.println("2. Imprimante multifonction");
-            System.out.print("Choix machine : ");
+            DisplayService.displayToChoose();
 
-            int machineChoisie = lireEntier(scanner);
+            int machineChoisie = VerificationService.lireEntier(scanner);
 
             Machine machine;
             if (machineChoisie == 2) {
@@ -30,33 +22,8 @@ public class MainIsp {
             } else {
                 machine = new ImprimanteSimple();
             }
-
-            try {
-                executerFonction(machine, fonction);
-            } catch (UnsupportedOperationException e) {
-                System.out.println("Fonctionnalité non supportée par cette machine");
-            }
+            MachineService.executerFonction(machine, fonction);
         }
-
         scanner.close();
-    }
-
-    private static void executerFonction(Machine machine, int fonction) {
-        switch (fonction) {
-            case 1: machine.print(); break;
-            case 2: machine.scan(); break;
-            case 3: machine.fax(); break;
-            default: System.out.println("Fonction inconnue");
-        }
-    }
-
-    private static int lireEntier(Scanner scanner) {
-        while (true) {
-            try {
-                return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                System.out.print("Entrée invalide : ");
-            }
-        }
     }
 }
