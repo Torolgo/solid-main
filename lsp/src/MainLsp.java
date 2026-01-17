@@ -13,6 +13,13 @@ public class MainLsp {
             System.out.println("Opération impossible : Ce type de compte ne permet pas de retrait immédiat.");
         }
 
+        if (compte instanceof CompteEpargne) {
+            System.out.println("Application des intérêts annuels...");
+            ((CompteEpargne) compte).appliquerInterets();
+        } else {
+            System.out.println("Opération impossible : Ce type de compte ne produit pas d'intérets .");
+        }
+
         System.out.println("Solde final : " + compte.solde);
         scanner.close();
     }
