@@ -1,5 +1,6 @@
-public class PushNotificationSender {
-    public void send(String message) {
+public class PushNotificationSender implements MessageSender {
+    @Override
+    public void sendMessage(String message) {
         System.out.println("Notification push envoyée : " + message);
     }
 }
